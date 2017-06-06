@@ -1,5 +1,7 @@
 package com.yndongyong.widget.mutilitemview;
 
+import android.support.v7.widget.RecyclerView;
+
 import java.util.List;
 
 /**
@@ -8,17 +10,23 @@ import java.util.List;
 
 public interface ITypePool {
 
-    void register(Class<?> clazz,ItemViewProvider itemView);
+    void register(Class<?> clazz,ItemViewProvider<?,? extends RecyclerView.ViewHolder> itemView);
 
     void register(ITypePool pool);
 
+    /**
+     * 得到值作为Viewtype
+     * @param clazz
+     * @return
+     */
     int indexOfTypePool(Class<?> clazz);
-
 
     ItemViewProvider findViewProviderByIndex(int index);
 
     List<Class<?>> getCategory();
 
-    List<ItemViewProvider> getProviders();
+    List<ItemViewProvider<?,? extends RecyclerView.ViewHolder>> getProviders();
+
+    int getCount();
 
 }

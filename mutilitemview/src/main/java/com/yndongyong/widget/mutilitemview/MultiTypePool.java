@@ -1,6 +1,8 @@
 package com.yndongyong.widget.mutilitemview;
 
 
+import android.support.v7.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,7 @@ import java.util.List;
 public class MultiTypePool implements ITypePool {
 
     private List<Class<?>> categorys;
-    private List<ItemViewProvider> providers;
+    private List<ItemViewProvider<?, ? extends RecyclerView.ViewHolder>> providers;
 
     public MultiTypePool() {
         this.categorys = new ArrayList<>(5);
@@ -18,7 +20,7 @@ public class MultiTypePool implements ITypePool {
     }
 
     @Override
-    public void register(Class<?> clazz, ItemViewProvider itemView) {
+    public void register(Class<?> clazz, ItemViewProvider<?, ? extends RecyclerView.ViewHolder> itemView) {
         if (!this.categorys.contains(clazz)) {
             this.categorys.add(clazz);
             this.providers.add(itemView);
@@ -27,14 +29,14 @@ public class MultiTypePool implements ITypePool {
 
     @Override
     public void register(ITypePool pool) {
-            this.categorys.addAll(pool.getCategory());
-            this.providers.addAll(pool.getProviders());
+        this.categorys.addAll(pool.getCategory());
+        this.providers.addAll(pool.getProviders());
     }
 
     @Override
     public int indexOfTypePool(Class<?> clazz) {
         if (!this.categorys.contains(clazz)) {
-            throw new RuntimeException("Unregistered "+ clazz.getSimpleName() +" type !!!");
+            throw new RuntimeException("Unregistered " + clazz.getSimpleName() + " type !!!");
         }
         return this.categorys.indexOf(clazz);
     }
@@ -51,7 +53,12 @@ public class MultiTypePool implements ITypePool {
     }
 
     @Override
-    public List<ItemViewProvider> getProviders() {
+    public List<ItemViewProvider<?, ? extends RecyclerView.ViewHolder>> getProviders() {
         return providers;
+    }
+
+    @Override
+    public int getCount() {
+        return categorys != null ? categorys.size() : 0;
     }
 }

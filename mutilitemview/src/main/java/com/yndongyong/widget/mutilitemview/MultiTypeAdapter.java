@@ -31,6 +31,7 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             inflater = LayoutInflater.from(parent.getContext());
         }
         ItemViewProvider viewProvider = this.typePool.findViewProviderByIndex(viewType);
+        viewProvider.adapter = this;
         return viewProvider.onCreateViewHolder(inflater,parent);
     }
 

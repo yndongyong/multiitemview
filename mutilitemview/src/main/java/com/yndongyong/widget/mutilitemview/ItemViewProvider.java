@@ -10,8 +10,14 @@ import android.view.ViewGroup;
 
 public abstract class ItemViewProvider<T,VH extends RecyclerView.ViewHolder>  {
 
+    MultiTypeAdapter adapter;
+
     public abstract  VH onCreateViewHolder(LayoutInflater inflater, ViewGroup parent);
 
     abstract public void onBindViewHolder(VH holder, T entity);
 
+
+    public MultiTypeAdapter getAdapter() {
+        return adapter;
+    }
 }
