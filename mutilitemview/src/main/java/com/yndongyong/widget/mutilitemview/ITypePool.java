@@ -29,4 +29,6 @@ public interface ITypePool {
 
     int getCount();
 
+    void clear();
+
 }

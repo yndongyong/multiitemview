@@ -29,6 +29,9 @@ public class MultiTypePool implements ITypePool {
 
     @Override
     public void register(ITypePool pool) {
+        if (pool.getCategory().size() == 0) {
+            return;
+        }
         this.categorys.addAll(pool.getCategory());
         this.providers.addAll(pool.getProviders());
     }
@@ -60,5 +63,11 @@ public class MultiTypePool implements ITypePool {
     @Override
     public int getCount() {
         return categorys != null ? categorys.size() : 0;
+    }
+
+    @Override
+    public void clear() {
+        this.categorys.clear();
+        this.providers.clear();
     }
 }

@@ -62,4 +62,19 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.typePool.register(pool);
     }
 
+
+    public ITypePool getTypePool() {
+        return this.typePool;
+    }
+
+    public Items getItems() {
+        return this.items;
+    }
+
+    public void addNewData() {
+
+    }
+    public void addMoreData() {
+
+    }
 }

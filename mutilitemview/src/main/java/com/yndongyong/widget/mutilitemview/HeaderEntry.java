@@ -8,6 +8,11 @@ public class HeaderEntry {
     private String refreshTips;
     private String normalTips;
 
+    public HeaderEntry(String refreshTips, String normalTips) {
+        this.refreshTips = refreshTips;
+        this.normalTips = normalTips;
+    }
+
     public String getRefreshTips() {
         return refreshTips;
     }
