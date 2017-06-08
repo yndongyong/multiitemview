@@ -1,31 +1,33 @@
 package com.yndongyong.widget.mutilitemview;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.ViewGroup;
+import android.view.MotionEvent;
 
 /**
  * Created by dongzhiyong on 2017/6/6.
  */
-
 public class DYRecyclerView extends RecyclerView {
 
     private boolean pullToRefreshEnable = true;
     private boolean loadingMoreEnable = false;
+
     private boolean isRefreshing = false;
     private boolean isLoading = false;
 
 
-    private final int VIEW_TYPE_REFRESH_HEADER = 10000;//刷新head的viewtype
-    private final int VIEW_TYPE_LOADING_FOOTER = 20000;//加载更多的ViewType
-    private final int BASE_HEADER_VIEW_INDEX = 10001; //haderview 的 基数
+    //refresh header
+    private RefreshHeaderEntry refreshHeaderEntry;//刷新头部的Entry
+    private ItemViewProvider<?, ? extends RecyclerView.ViewHolder> refreshHeaderViewProvider;
+    private IRefreshHeaderView refreshHeader;
 
     private ITypePool mHeaderViews = new MultiTypePool();//存放headerviews
     private ITypePool mFooterViews = new MultiTypePool();//存放footerviews
 
+    private Items mHeaderEntrys = new Items();//存放Header的数据
+    private Items mFooterEntrys = new Items();//存放footer 的数据
 
     private Items items = new Items();
 
@@ -33,7 +35,6 @@ public class DYRecyclerView extends RecyclerView {
     private MultiTypeAdapter originalAdapter;
 
     private final RecyclerView.AdapterDataObserver mDataObserver = new DataObserver();
-
 
     public DYRecyclerView(Context context) {
         this(context, null);
@@ -52,26 +53,102 @@ public class DYRecyclerView extends RecyclerView {
 
     }
 
+    public void setPullToRefreshEnable(boolean pullToRefreshEnable) {
+        this.pullToRefreshEnable = pullToRefreshEnable;
+        if (!pullToRefreshEnable ) {
+            return;
+        }
+        if (refreshHeaderEntry == null) {
+            refreshHeaderEntry = fakeRefreshHeaderEntry();
+        }
+        if (refreshHeaderViewProvider == null) {
+            refreshHeaderViewProvider = new DefaultHeaderViewProvider();
+            refreshHeader = (IRefreshHeaderView) refreshHeaderViewProvider;
+
+        }
+    }
+
+    public void refreshComplete() {
+        refreshHeader.refreshComplete();
+    }
+
+    public void setRefreshHeaderViewProvider(ItemViewProvider<?, ? extends ViewHolder> refreshHeaderViewProvider) {
+        this.refreshHeaderViewProvider = refreshHeaderViewProvider;
+        refreshHeader = (IRefreshHeaderView) refreshHeaderViewProvider;
+        this.setPullToRefreshEnable(true);
+        if (refreshHeaderEntry == null) {
+            refreshHeaderEntry = fakeRefreshHeaderEntry();
+        }
+        if (originalAdapter != null) {
+            mDataObserver.onChanged();
+        }
+    }
+
+    private RefreshHeaderEntry fakeRefreshHeaderEntry() {
+        return new RefreshHeaderEntry("正在刷新。。。", "下拉刷新","刷新完毕");
+    }
+
+
+    public void setLoadingMoreEnable(boolean loadingMoreEnable) {
+        this.loadingMoreEnable = loadingMoreEnable;
+        // TODO: 2017/6/8
+    }
+
+
+
     /**
      * 为这个方法找一个执行时机
      */
-    public void setupTypePool() {
+    public void combinationTypePool() {
         this.multiTypeAdapter.getTypePool().clear();
-        //TODO register refresh header
+        if (pullToRefreshEnable && refreshHeaderEntry != null || refreshHeaderViewProvider != null) {
+            multiTypeAdapter.register(refreshHeaderEntry.getClass(), refreshHeaderViewProvider);
+        }
         this.multiTypeAdapter.register(mHeaderViews);
         this.multiTypeAdapter.register(originalAdapter.getTypePool());
         this.multiTypeAdapter.register(mFooterViews);
+        // TODO: 2017/6/8 register load more footer
+        if (loadingMoreEnable) {
+
+        }
+    }
+
+    /**
+     * 根据Refresh header，headerviews ，footerview，数据集，组合真正的数据集。
+     */
+    public void combinationItems() {
+        Items tempData = new Items();
+        if (pullToRefreshEnable && refreshHeaderEntry != null || refreshHeaderViewProvider != null) {
+            // TODO: 2017/6/8 添加refresh header的数据
+            tempData.add(refreshHeaderEntry);
+        }
+        if (mHeaderEntrys.size() > 0) {
+            tempData.addAll(mHeaderEntrys);
+        }
+        if (originalAdapter.getItemCount() > 0) {
+            tempData.addAll(originalAdapter.getItems());
+        }
+        if (mFooterEntrys.size() > 0) {
+            tempData.addAll(mFooterEntrys);
+        }
+
+        if (loadingMoreEnable) {
+            // TODO: 2017/6/8 添加load more footer的数据
+        }
+        items.clear();
+        items.addAll(tempData);
     }
 
     @Override
     public void setAdapter(Adapter adapter) {
         this.originalAdapter = (MultiTypeAdapter) adapter;
-        //TODO 添加头 添加footer
-        this.items.addAll(originalAdapter.getItems());
-        setupTypePool();
+        combinationTypePool();
+        combinationItems();
         super.setAdapter(multiTypeAdapter);
         adapter.registerAdapterDataObserver(mDataObserver);
-
+        if (this.mHeaderEntrys.size() > 0 || this.originalAdapter.getItemCount() > 0) {
+            mDataObserver.onChanged();
+        }
     }
 
     @Override
@@ -99,20 +176,23 @@ public class DYRecyclerView extends RecyclerView {
         return position > getHeaderViewsCount() + getFooterViewsCount() + getRealItemCount();
     }
 
-    public void addHeaderView(HeaderEntry object, ItemViewProvider<?, ? extends ViewHolder> itemViewProvider) {
+    public void addHeaderView(Object object, ItemViewProvider<?, ? extends ViewHolder> itemViewProvider) {
         this.mHeaderViews.register(object.getClass(), itemViewProvider);
-        this.items.add(object);
+        this.mHeaderEntrys.add(object);
+        combinationItems();
     }
 
-    public void addFooterView(HeaderEntry object, ItemViewProvider<?, ? extends ViewHolder> itemViewProvider) {
+    public void addFooterView(Object object, ItemViewProvider<?, ? extends ViewHolder> itemViewProvider) {
         this.mFooterViews.register(object.getClass(), itemViewProvider);
-        this.items.add(originalAdapter.getItemCount()-1,object);
+        this.mFooterEntrys.add(object);
+        combinationItems();
     }
 
     private class DataObserver extends RecyclerView.AdapterDataObserver {
         @Override
         public void onChanged() {
             if (multiTypeAdapter != null) {
+                combinationItems();
                 multiTypeAdapter.notifyDataSetChanged();
             }
             /*if (multiTypeAdapter != null && mEmptyView != null) {
@@ -157,30 +237,41 @@ public class DYRecyclerView extends RecyclerView {
         }
     }
 
-    class WrapAdapter extends MultiTypeAdapter {
+    private float mLastY = -1;
+    private static final float DRAG_RATE = 3;
 
-        private MultiTypeAdapter origAdapter;
-
-        public WrapAdapter(MultiTypeAdapter origAdapter) {
-            this.origAdapter = origAdapter;
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mLastY = ev.getRawY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                final float deltaY = ev.getRawY() - mLastY;
+                mLastY = ev.getRawY();
+                if (pullToRefreshEnable ) {
+                    refreshHeader.onMove(deltaY / DRAG_RATE);
+                    if (refreshHeader.getVisibleHeight() > 0 && refreshHeader.getState() < IRefreshHeaderView.STATE_REFRESHING) {
+                        return false;
+                    }
+                }
+                break;
+            default:
+                mLastY = -1; // reset
+                if ( pullToRefreshEnable /*&& appbarState == AppBarStateChangeListener.State.EXPANDED*/) {
+                    if (refreshHeader.releaseAction()) {
+                       /* if (mLoadingListener != null) {
+                            if (mEmptyView != null) {
+                                mEmptyView.getLayoutParams().width = 0;
+                                mEmptyView.getLayoutParams().height = 0;
+                            }
+                            mLoadingListener.onRefresh();
+                        }*/
+                        // TODO: 2017/6/8
+                    }
+                }
+                break;
         }
-
-        @NonNull
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return super.onCreateViewHolder(parent, viewType);
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            if (isHearderViewPosition(position)) {
-                return mHeaderViews.indexOfTypePool(items.get(position).getClass());
-            }
-            if (isFooterViewPosition(position)) {
-                return mFooterViews.indexOfTypePool(items.get(position).getClass());
-            }
-
-            return origAdapter.getItemViewType(position);
-        }
+        return super.onTouchEvent(ev);
     }
 }

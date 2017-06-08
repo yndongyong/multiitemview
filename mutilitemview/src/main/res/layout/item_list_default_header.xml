@@ -4,14 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
+    android:padding="10dp"
+    android:minHeight="80dp"
+    android:background="#e9e9e9"
     android:orientation="horizontal">
 
 
-    <ProgressBar
-        android:id="@+id/pb_progress"
+    <ImageView
+        android:id="@+id/iv_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/Base.Widget.AppCompat.ProgressBar"
+        android:src="@drawable/icon_font_downgrey"
+        />
+
+    <ImageView
+        android:id="@+id/iv_loading"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_default_header_loading"
         />
 
     <TextView
@@ -21,8 +32,6 @@
         android:gravity="center"
         android:layout_marginLeft="8dp"
         android:text="加载更多"
-        android:background="#999"
-        android:textColor="#fff"
+        android:textColor="#2d2d2d"
         />
-
 </LinearLayout>

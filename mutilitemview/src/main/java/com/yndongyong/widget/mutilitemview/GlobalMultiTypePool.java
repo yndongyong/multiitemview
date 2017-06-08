@@ -17,7 +17,7 @@ class GlobalMultiTypePool {
 
     private GlobalMultiTypePool() {
         typePool = new MultiTypePool();
-        typePool.register(HeaderEntry.class, new HeaderViewProvider());
+        typePool.register(RefreshHeaderEntry.class, new DefaultHeaderViewProvider());
     }
 
     public ITypePool applyGlobalMultiPool() {
