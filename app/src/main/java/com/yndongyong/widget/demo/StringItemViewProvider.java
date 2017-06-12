@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.yndongyong.widget.mutilitemview.ItemViewProvider;
+import com.yndongyong.widget.multiitemview.ItemViewProvider;
 
 /**
  * Created by dongzhiyong on 2017/5/29.

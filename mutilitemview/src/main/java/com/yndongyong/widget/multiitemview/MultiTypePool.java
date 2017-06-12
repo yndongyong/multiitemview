@@ -1,4 +1,4 @@
-package com.yndongyong.widget.mutilitemview;
+package com.yndongyong.widget.multiitemview;
 
 
 import java.util.ArrayList;

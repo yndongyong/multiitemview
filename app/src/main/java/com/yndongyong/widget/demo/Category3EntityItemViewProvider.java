@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.yndongyong.widget.mutilitemview.ItemViewProvider;
-import com.yndongyong.widget.mutilitemview.Items;
-import com.yndongyong.widget.mutilitemview.MultiTypeAdapter;
+import com.yndongyong.widget.multiitemview.ItemViewProvider;
+import com.yndongyong.widget.multiitemview.Items;
+import com.yndongyong.widget.multiitemview.MultiTypeAdapter;
 
 /**
  * Created by dongzhiyong on 2017/5/29.

@@ -1,6 +1,5 @@
 package com.yndongyong.widget.demo;
 
-import android.speech.tts.TextToSpeech;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.yndongyong.widget.mutilitemview.ItemViewProvider;
+import com.yndongyong.widget.multiitemview.ItemViewProvider;
 
 /**
  * Created by dongzhiyong on 2017/5/29.

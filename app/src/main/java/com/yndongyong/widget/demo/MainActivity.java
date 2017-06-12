@@ -3,10 +3,9 @@ package com.yndongyong.widget.demo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
-import com.yndongyong.widget.mutilitemview.Items;
-import com.yndongyong.widget.mutilitemview.MultiTypeAdapter;
+import com.yndongyong.widget.multiitemview.Items;
+import com.yndongyong.widget.multiitemview.MultiTypeAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
