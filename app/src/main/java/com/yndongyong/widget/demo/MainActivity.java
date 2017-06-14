@@ -3,6 +3,8 @@ package com.yndongyong.widget.demo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Toast;
 
 import com.yndongyong.widget.multiitemview.ItemViewProvider;
 import com.yndongyong.widget.multiitemview.Items;
@@ -61,8 +63,15 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onBindViewHolder(SimpleViewHolder holder, String entity) {
+            public void onBindViewHolder(final SimpleViewHolder holder, String entity) {
                 holder.setText(R.id.tv_header_name, entity);
+                holder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int adapterPosition = holder.getAdapterPosition();
+                        Toast.makeText(MainActivity.this,  "click header position:" + adapterPosition + ";", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         rv_list.setAdapter(multiTypeAdapter);

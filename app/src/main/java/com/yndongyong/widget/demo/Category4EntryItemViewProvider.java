@@ -1,6 +1,8 @@
 package com.yndongyong.widget.demo;
 
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.yndongyong.widget.multiitemview.ItemViewProvider;
@@ -18,10 +20,15 @@ public class Category4EntryItemViewProvider extends ItemViewProvider<Category4En
     }
 
     @Override
-    public void onBindViewHolder(SimpleViewHolder holder, Category4Entry entity) {
+    public void onBindViewHolder(final SimpleViewHolder holder, Category4Entry entity) {
         ImageView icon = holder.getView(R.id.iv_icon);
         Glide.with(icon).load(entity.getUrl()).into(icon);
         holder.setText(R.id.tv_category_name, entity.getDescription());
-
+        holder.setOnClickListener(R.id.iv_icon, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(holder.getContext(),  "click image position:" + holder.getAdapterPosition() + ";", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
