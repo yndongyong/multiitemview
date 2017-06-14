@@ -1,5 +1,8 @@
 package com.yndongyong.widget.multiitemview;
 
+import android.content.Context;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,25 +16,22 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Items items;
     private ITypePool typePool;
     private LayoutInflater inflater;
+    private Context mContext;
 
-    public MultiTypeAdapter() {
-        this.items = new Items();
-        this.typePool = new MultiTypePool();
-    }
-
-    public MultiTypeAdapter(Items items) {
-        this();
+    public MultiTypeAdapter(Context context,Items items) {
+        this.mContext = context;
         this.items = items;
+        this.typePool = new MultiTypePool();
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (inflater == null) {
-            inflater = LayoutInflater.from(parent.getContext());
+            inflater = LayoutInflater.from(mContext);
         }
         ItemViewProvider viewProvider = this.typePool.findViewProviderByIndex(viewType);
-        return viewProvider.onCreateViewHolder(inflater,parent);
+        return viewProvider.onCreateViewHolder(mContext,inflater,parent);
     }
 
     @NonNull
@@ -39,7 +39,7 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int itemViewType = holder.getItemViewType();
         ItemViewProvider viewProvider = this.typePool.findViewProviderByIndex(itemViewType);
-        viewProvider.onBindViewHolder(holder,items.get(position));
+        viewProvider.onBindViewHolder((SimpleViewHolder) holder,items.get(position));
     }
 
     @Override
@@ -53,7 +53,7 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return  this.typePool.indexOfTypePool(aClass);
     }
 
-    public void register(Class<?> clazz, ItemViewProvider<?, ?> viewProvider) {
+    public void register(Class<?> clazz, ItemViewProvider<?> viewProvider) {
         this.typePool.register(clazz, viewProvider);
     }
 

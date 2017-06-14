@@ -1,14 +1,16 @@
 package com.yndongyong.widget.demo;
 
+
 /**
  * Created by dongzhiyong on 2017/5/29.
  */
 
-public class Category2Entry {
+public class Category4Entry {
+
     private String url;
     private String description;
 
-    public Category2Entry(String url, String description) {
+    public Category4Entry(String url, String description) {
         this.url = url;
         this.description = description;
     }
