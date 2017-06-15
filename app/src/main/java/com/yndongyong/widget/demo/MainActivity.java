@@ -6,10 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import com.yndongyong.widget.multiitemview.ItemViewProvider;
-import com.yndongyong.widget.multiitemview.Items;
-import com.yndongyong.widget.multiitemview.SimpleAdapter;
-import com.yndongyong.widget.multiitemview.SimpleViewHolder;
+import com.yndongyong.widget.adapter.ItemViewProvider;
+import com.yndongyong.widget.adapter.Items;
+import com.yndongyong.widget.adapter.SimpleAdapter;
+import com.yndongyong.widget.adapter.SimpleViewHolder;
 
 
 public class MainActivity extends AppCompatActivity {
