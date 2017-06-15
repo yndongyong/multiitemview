@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.yndongyong.widget.multiitemview.ItemViewProvider;
 import com.yndongyong.widget.multiitemview.Items;
-import com.yndongyong.widget.multiitemview.MultiTypeAdapter;
+import com.yndongyong.widget.multiitemview.SimpleAdapter;
 import com.yndongyong.widget.multiitemview.SimpleViewHolder;
 
 
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView rv_list;
 
     private Items items = new Items();
-    private MultiTypeAdapter multiTypeAdapter;
+    private SimpleAdapter multiTypeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Category4Entry("http://img0.imgtn.bdimg.com/it/u=1610953019,3012342313&fm=214&gp=0.jpg", "风景图片5"));
         items.add(new Category4Entry("http://scimg.jb51.net/allimg/150819/14-150QZ9194K27.jpg", "风景图片6"));
 
-        multiTypeAdapter = new MultiTypeAdapter(this,items);
+        multiTypeAdapter = new SimpleAdapter(this,items);
         multiTypeAdapter.register(Category4Entry.class, new Category4EntryItemViewProvider());
         multiTypeAdapter.register(String.class, new ItemViewProvider<String>() {
             @Override

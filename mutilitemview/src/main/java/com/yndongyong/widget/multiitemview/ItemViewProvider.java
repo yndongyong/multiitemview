@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 public abstract class ItemViewProvider<T>  {
 
-    protected RecyclerView.ViewHolder onCreateViewHolder(Context context, LayoutInflater inflater, ViewGroup parent){
+    protected SimpleViewHolder onCreateViewHolder(Context context, LayoutInflater inflater, ViewGroup parent){
         return new SimpleViewHolder(context,inflater.inflate(getLayoutId(),parent,false));
     }
 

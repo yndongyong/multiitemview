@@ -1,8 +1,6 @@
 package com.yndongyong.widget.multiitemview;
 
 import android.content.Context;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,14 +9,14 @@ import android.view.ViewGroup;
 /**
  * Created by dongzhiyong on 2017/5/29.
  */
-public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
 
     private Items items;
     private ITypePool typePool;
     private LayoutInflater inflater;
     private Context mContext;
 
-    public MultiTypeAdapter(Context context,Items items) {
+    public SimpleAdapter(Context context, Items items) {
         this.mContext = context;
         this.items = items;
         this.typePool = new MultiTypePool();
@@ -26,7 +24,7 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (inflater == null) {
             inflater = LayoutInflater.from(mContext);
         }
@@ -36,7 +34,7 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @NonNull
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(SimpleViewHolder holder, int position) {
         int itemViewType = holder.getItemViewType();
         ItemViewProvider viewProvider = this.typePool.findViewProviderByIndex(itemViewType);
         viewProvider.onBindViewHolder((SimpleViewHolder) holder,items.get(position));
@@ -59,6 +57,19 @@ public class MultiTypeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public void register(ITypePool pool) {
         this.typePool.register(pool);
+    }
+
+    public void addNewData(Items data) {
+        this.items.clear();
+        this.items.add(data);
+        notifyDataSetChanged();
+    }
+
+    public void addMoreData(Items data) {
+        int size = this.items.size();
+        this.items.addAll(data);
+        this.notifyItemRangeChanged(size,this.items.size());
+
     }
 
 }
