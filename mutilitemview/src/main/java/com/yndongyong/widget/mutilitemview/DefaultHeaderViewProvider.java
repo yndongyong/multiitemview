@@ -55,44 +55,7 @@ public class DefaultHeaderViewProvider extends ItemViewProvider<RefreshHeaderEnt
     public void onBindViewHolder(HeaderViewHolder holder, RefreshHeaderEntry entity) {
         holder.tv_header_tips.setText(entity.getRefreshTips());
         currentPosition = holder.getAdapterPosition();
-        if (mState == STATE_REFRESHING) {    // 显示进度
-            holder.iv_arrow.clearAnimation();
-            holder.iv_arrow.setVisibility(View.INVISIBLE);
-            holder.iv_loading.setVisibility(View.VISIBLE);
-            smoothScrollTo(getMeasuredHeight());
-        } else if (mState == STATE_DONE) {
-            holder.iv_arrow.setVisibility(View.INVISIBLE);
-            holder.iv_loading.setVisibility(View.INVISIBLE);
-        } else {    // 显示箭头图片
-            holder.iv_arrow.setVisibility(View.VISIBLE);
-            holder.iv_loading.setVisibility(View.INVISIBLE);
-        }
 
-        switch (mState) {
-            case STATE_NORMAL:
-                if (mState == STATE_RELEASE_TO_REFRESH) {
-                    holder.iv_arrow.startAnimation(mRotateDownAnim);
-                }
-                if (mState == STATE_REFRESHING) {
-                    holder.iv_arrow.clearAnimation();
-                }
-                holder.tv_header_tips.setText(entity.getNormalTips());
-                break;
-            case STATE_RELEASE_TO_REFRESH:
-                if (mState != STATE_RELEASE_TO_REFRESH) {
-                    holder.iv_arrow.clearAnimation();
-                    holder.iv_arrow.startAnimation(mRotateUpAnim);
-                    holder.tv_header_tips.setText(entity.getRefreshTips());
-                }
-                break;
-            case STATE_REFRESHING:
-                holder.tv_header_tips.setText(entity.getRefreshTips());
-                break;
-            case STATE_DONE:
-                holder.tv_header_tips.setText(entity.getNormalTips());
-                break;
-            default:
-        }
 
 
     }
@@ -187,7 +150,44 @@ public class DefaultHeaderViewProvider extends ItemViewProvider<RefreshHeaderEnt
     public void setState(int state) {
         if (state == mState) return;
         mState = state;
-        getAdapter().notifyItemChanged(currentPosition);
+        if (mState == STATE_REFRESHING) {    // 显示进度
+            holder.iv_arrow.clearAnimation();
+            holder.iv_arrow.setVisibility(View.INVISIBLE);
+            holder.iv_loading.setVisibility(View.VISIBLE);
+            smoothScrollTo(getMeasuredHeight());
+        } else if (mState == STATE_DONE) {
+            holder.iv_arrow.setVisibility(View.INVISIBLE);
+            holder.iv_loading.setVisibility(View.INVISIBLE);
+        } else {    // 显示箭头图片
+            holder.iv_arrow.setVisibility(View.VISIBLE);
+            holder.iv_loading.setVisibility(View.INVISIBLE);
+        }
+
+        switch (mState) {
+            case STATE_NORMAL:
+                if (mState == STATE_RELEASE_TO_REFRESH) {
+                    holder.iv_arrow.startAnimation(mRotateDownAnim);
+                }
+                if (mState == STATE_REFRESHING) {
+                    holder.iv_arrow.clearAnimation();
+                }
+                holder.tv_header_tips.setText(entity.getNormalTips());
+                break;
+            case STATE_RELEASE_TO_REFRESH:
+                if (mState != STATE_RELEASE_TO_REFRESH) {
+                    holder.iv_arrow.clearAnimation();
+                    holder.iv_arrow.startAnimation(mRotateUpAnim);
+                    holder.tv_header_tips.setText(entity.getRefreshTips());
+                }
+                break;
+            case STATE_REFRESHING:
+                holder.tv_header_tips.setText(entity.getRefreshTips());
+                break;
+            case STATE_DONE:
+                holder.tv_header_tips.setText(entity.getNormalTips());
+                break;
+            default:
+        }
     }
 
     @Override
