@@ -17,11 +17,12 @@ public abstract class ItemViewProvider<T>  {
     }
 
     protected void onBindViewHolder(SimpleViewHolder holder, T entity, List<Object> payloads) {
-
+        onBindViewHolder(holder,entity);
     }
 
     public abstract int getLayoutId();
 
     public abstract  void onBindViewHolder(SimpleViewHolder holder, T entity);
+
 
 }
