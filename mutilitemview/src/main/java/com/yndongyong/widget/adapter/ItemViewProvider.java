@@ -12,6 +12,9 @@ import java.util.List;
 
 public abstract class ItemViewProvider<T>  {
 
+    public SimpleAdapter simpleAdapter;
+    public Context context;
+
     protected SimpleViewHolder onCreateViewHolder(Context context, LayoutInflater inflater, ViewGroup parent){
         return new SimpleViewHolder(context,inflater.inflate(getLayoutId(),parent,false));
     }

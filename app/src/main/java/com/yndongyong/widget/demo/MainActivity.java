@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Category4Entry("http://scimg.jb51.net/allimg/150819/14-150QZ9194K27.jpg", "风景图片6"));
 
 
-
         items.add("头部4");
         items.add(new Category4Entry("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg", "风景图片4"));
         items.add(new Category4Entry("http://img0.imgtn.bdimg.com/it/u=1610953019,3012342313&fm=214&gp=0.jpg", "风景图片5"));
@@ -54,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
         items.add(new Category4Entry("http://img0.imgtn.bdimg.com/it/u=1610953019,3012342313&fm=214&gp=0.jpg", "风景图片5"));
         items.add(new Category4Entry("http://scimg.jb51.net/allimg/150819/14-150QZ9194K27.jpg", "风景图片6"));
 
-        multiTypeAdapter = new SimpleAdapter(this,items);
+
+        /*multiTypeAdapter = new SimpleAdapter(this,items);
         multiTypeAdapter.register(Category4Entry.class, new Category4EntryItemViewProvider());
         multiTypeAdapter.register(String.class, new ItemViewProvider<String>() {
             @Override
@@ -73,12 +73,33 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             }
-        });
+        });*/
+        multiTypeAdapter = SimpleAdapter.create(this)
+                .addNewData(items)
+                .register(Category4Entry.class, new Category4EntryItemViewProvider())
+                .register(String.class, new ItemViewProvider<String>() {
+                    @Override
+                    public int getLayoutId() {
+                        return R.layout.item_header;
+                    }
+
+                    @Override
+                    public void onBindViewHolder(final SimpleViewHolder holder, String entity) {
+                        holder.setText(R.id.tv_header_name, entity);
+                        holder.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                int adapterPosition = holder.getAdapterPosition();
+                                Toast.makeText(MainActivity.this, "click header position:" + adapterPosition + ";", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
         rv_list.setAdapter(multiTypeAdapter);
     }
 
     private void fakeData() {
-        for (int i=0;i<20;i++) {
+        for (int i = 0; i < 20; i++) {
             items.add("Item" + i);
         }
     }

@@ -17,7 +17,7 @@ import android.widget.TextView;
  * Created by dongzhiyong on 2017/6/14.
  */
 
-public class SimpleViewHolder extends RecyclerView.ViewHolder{
+public class SimpleViewHolder extends RecyclerView.ViewHolder {
 
     private SparseArray<View> viewMap;
     private Context mContext;
@@ -59,21 +59,21 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder{
         return this;
     }
 
-    public SimpleViewHolder setTextColor(@IdRes int viewId, int color){
+    public SimpleViewHolder setTextColor(@IdRes int viewId, int color) {
         TextView textView = getView(viewId);
         textView.setTextColor(color);
         return this;
     }
 
-    public SimpleViewHolder textSize(@IdRes int viewId, int sp){
+    public SimpleViewHolder textSize(@IdRes int viewId, int sp) {
         TextView textView = getView(viewId);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,sp);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp);
         return this;
     }
 
     public SimpleViewHolder textSize(@IdRes int viewId, int unit, int size) {
         TextView textView = getView(viewId);
-        textView.setTextSize(unit,size);
+        textView.setTextSize(unit, size);
         return this;
     }
 
@@ -90,7 +90,7 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder{
     }
 
 
-    public SimpleViewHolder setImage(@IdRes int viewId, Drawable drawable){
+    public SimpleViewHolder setImage(@IdRes int viewId, Drawable drawable) {
         ImageView image = getView(viewId);
         image.setImageDrawable(drawable);
         return this;
@@ -101,31 +101,29 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder{
         return this;
     }
 
-    public SimpleViewHolder setBackground(@IdRes int viewId, Drawable drawable){
+    public SimpleViewHolder setBackground(@IdRes int viewId, Drawable drawable) {
         getView(viewId).setBackground(drawable);
         return this;
     }
 
 
-
-
-    public SimpleViewHolder alpha(@IdRes int viewId, float alpha){
+    public SimpleViewHolder alpha(@IdRes int viewId, float alpha) {
         getView(viewId).setAlpha(alpha);
         return this;
     }
 
 
-    public SimpleViewHolder setVisible(@IdRes int viewId,boolean visible){
+    public SimpleViewHolder setVisible(@IdRes int viewId, boolean visible) {
         getView(viewId).setVisibility(visible ? View.VISIBLE : View.GONE);
         return this;
     }
 
-    public SimpleViewHolder setInvisible(@IdRes int viewId){
+    public SimpleViewHolder setInvisible(@IdRes int viewId) {
         getView(viewId).setVisibility(View.INVISIBLE);
         return this;
     }
 
-    public SimpleViewHolder setEnabled(@IdRes int viewId, boolean enable){
+    public SimpleViewHolder setEnabled(@IdRes int viewId, boolean enable) {
         getView(viewId).setEnabled(enable);
         return this;
     }
@@ -137,6 +135,11 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder{
 
     public SimpleViewHolder setOnClickListener(View.OnClickListener listener) {
         itemView.setOnClickListener(listener);
+        return this;
+    }
+
+    public SimpleViewHolder setOnLongClickListener(@IdRes int viewId, View.OnLongClickListener onLongClickListener) {
+        getView(viewId).setOnLongClickListener(onLongClickListener);
         return this;
     }
 

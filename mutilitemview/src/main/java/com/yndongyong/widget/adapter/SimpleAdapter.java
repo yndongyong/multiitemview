@@ -1,7 +1,9 @@
 package com.yndongyong.widget.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Looper;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +22,12 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
     private LayoutInflater inflater;
     private Context mContext;
 
-    public SimpleAdapter(Context context, Items items) {
+
+    private SimpleAdapter(Context context) {
+        this(context,new Items());
+    }
+
+    private SimpleAdapter(Context context, Items items) {
         this.mContext = context;
         this.items = items;
         this.typePool = new MultiTypePool();
@@ -33,17 +40,17 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
             inflater = LayoutInflater.from(mContext);
         }
         ItemViewProvider viewProvider = this.typePool.findViewProviderByIndex(viewType);
+        viewProvider.simpleAdapter = this;
+        viewProvider.context = mContext;
         return viewProvider.onCreateViewHolder(mContext,inflater,parent);
     }
 
-    @NonNull
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, int position) {
         int itemViewType = holder.getItemViewType();
         ItemViewProvider viewProvider = this.typePool.findViewProviderByIndex(itemViewType);
         viewProvider.onBindViewHolder(holder,items.get(position));
     }
-
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, int position, List<Object> payloads) {
         int itemViewType = holder.getItemViewType();
@@ -51,9 +58,15 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         viewProvider.onBindViewHolder(holder,items.get(position),payloads);
     }
 
+
     @Override
     public int getItemCount() {
         return this.items==null?0:this.items.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
@@ -62,48 +75,79 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         return  this.typePool.indexOfTypePool(aClass);
     }
 
-    public void register(Class<?> clazz, ItemViewProvider<?> viewProvider) {
+   /* public void register(Class<?> clazz, ItemViewProvider<?> viewProvider) {
         this.typePool.register(clazz, viewProvider);
-    }
+    }*/
 
     public void register(ITypePool pool) {
         this.typePool.register(pool);
     }
 
-    public void addNewData(Items data) {
+
+
+    /**
+     * 添加新的数据 带刷新
+     * @param data
+     */
+    public void addNewDataWithNotify(Items data) {
         this.items.clear();
-        this.items.add(data);
+        this.items.addAll(data);
         notifyDataSetChanged();
     }
-
-    public void addMoreData(Items data) {
-        int size = this.items.size();
+    /**
+     * 追加更多的数据 带刷新
+     * @param data
+     */
+    public void addMoreDataWithNotify(Items data) {
+               int size = this.items.size();
         this.items.addAll(data);
-        this.notifyItemRangeChanged(size,this.items.size());
+        this.notifyItemRangeInserted(size,data.size());
 
     }
-    public void updateData(List<?> newData, SimpleDiff.CallBack callBack) {
-        if (newData == null || newData.isEmpty() || getItemCount()==0 || callBack==null) {
+
+    /**
+     * 局部刷新
+     * @param newData
+     * @param callBack
+     */
+    public void updateItemsWithNotify(List<?> newData, SimpleDiff.CallBack callBack) {
+        if (newData == null || newData.isEmpty()) {
             return;
         }
         Items oldList =new Items(items);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new SimpleDiff(oldList, newData, callBack));
+        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new SimpleDiff(oldList, newData, callBack));
         this.items.clear();
         this.items.addAll(newData);
         if (Looper.myLooper() == Looper.getMainLooper()) {
             diffResult.dispatchUpdatesTo(this);
         } else {
-            // TODO: 2017/6/29  非UI线程
+            ((Activity)mContext).runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    diffResult.dispatchUpdatesTo(SimpleAdapter.this);
+                }
+            });
         }
     }
 
-    public void setItems(Items data) {
-        this.items.clear();
-        this.items.addAll(data);
+    public static SimpleAdapter create(Context context) {
+        SimpleAdapter adapter = new SimpleAdapter(context);
+        return adapter;
     }
 
-    public Items getData() {
-        return this.items;
+    /**
+     * 添加新的数据 不带刷新
+     * @param data
+     */
+    public SimpleAdapter addNewData(Items data) {
+        this.items.clear();
+        this.items.addAll(data);
+        return SimpleAdapter.this;
+    }
+
+    public SimpleAdapter register(Class<?> clazz, ItemViewProvider<?> viewProvider) {
+        SimpleAdapter.this.typePool.register(clazz, viewProvider);
+        return SimpleAdapter.this;
     }
 
 }
