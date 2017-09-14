@@ -1,4 +1,4 @@
-package com.yndongyong.widget.adapter;
+package com.yndongyong.widget.multiitem;
 
 import android.content.Context;
 import android.graphics.Bitmap;

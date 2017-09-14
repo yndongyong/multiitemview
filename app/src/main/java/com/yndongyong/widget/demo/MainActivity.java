@@ -6,10 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
-import com.yndongyong.widget.adapter.ItemViewProvider;
-import com.yndongyong.widget.adapter.Items;
-import com.yndongyong.widget.adapter.SimpleAdapter;
-import com.yndongyong.widget.adapter.SimpleViewHolder;
+import com.yndongyong.widget.multiitem.ItemViewProvider;
+import com.yndongyong.widget.multiitem.Items;
+import com.yndongyong.widget.multiitem.SimpleAdapter;
+import com.yndongyong.widget.multiitem.SimpleViewHolder;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -94,8 +94,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                     }
-                });
-        rv_list.setAdapter(multiTypeAdapter);
+                }).attachToRecyclerView(rv_list);
     }
 
     private void fakeData() {

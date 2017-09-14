@@ -1,4 +1,4 @@
-package com.yndongyong.widget.adapter;
+package com.yndongyong.widget.multiitem;
 
 
 import java.util.ArrayList;
@@ -27,14 +27,14 @@ public class MultiTypePool implements ITypePool {
 
     @Override
     public void register(ITypePool pool) {
-            this.categorys.addAll(pool.getCategory());
-            this.providers.addAll(pool.getProviders());
+        this.categorys.addAll(pool.getCategory());
+        this.providers.addAll(pool.getProviders());
     }
 
     @Override
     public int indexOfTypePool(Class<?> clazz) {
         if (!this.categorys.contains(clazz)) {
-            throw new RuntimeException("Unregistered "+ clazz.getSimpleName() +" type !!!");
+            throw new RuntimeException("Unregistered " + clazz.getSimpleName() + " type !!!");
         }
         return this.categorys.indexOf(clazz);
     }

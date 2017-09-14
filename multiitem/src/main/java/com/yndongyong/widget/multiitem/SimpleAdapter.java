@@ -1,9 +1,8 @@
-package com.yndongyong.widget.adapter;
+package com.yndongyong.widget.multiitem;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Looper;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -24,7 +23,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
 
 
     private SimpleAdapter(Context context) {
-        this(context,new Items());
+        this(context, new Items());
     }
 
     private SimpleAdapter(Context context, Items items) {
@@ -42,26 +41,27 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         ItemViewProvider viewProvider = this.typePool.findViewProviderByIndex(viewType);
         viewProvider.simpleAdapter = this;
         viewProvider.context = mContext;
-        return viewProvider.onCreateViewHolder(mContext,inflater,parent);
+        return viewProvider.onCreateViewHolder(mContext, inflater, parent);
     }
 
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, int position) {
         int itemViewType = holder.getItemViewType();
         ItemViewProvider viewProvider = this.typePool.findViewProviderByIndex(itemViewType);
-        viewProvider.onBindViewHolder(holder,items.get(position));
+        viewProvider.onBindViewHolder(holder, items.get(position));
     }
+
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, int position, List<Object> payloads) {
         int itemViewType = holder.getItemViewType();
         ItemViewProvider viewProvider = this.typePool.findViewProviderByIndex(itemViewType);
-        viewProvider.onBindViewHolder(holder,items.get(position),payloads);
+        viewProvider.onBindViewHolder(holder, items.get(position), payloads);
     }
 
 
     @Override
     public int getItemCount() {
-        return this.items==null?0:this.items.size();
+        return this.items == null ? 0 : this.items.size();
     }
 
     @Override
@@ -72,7 +72,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
     @Override
     public int getItemViewType(int position) {
         Class<?> aClass = this.items.get(position).getClass();
-        return  this.typePool.indexOfTypePool(aClass);
+        return this.typePool.indexOfTypePool(aClass);
     }
 
    /* public void register(Class<?> clazz, ItemViewProvider<?> viewProvider) {
@@ -84,9 +84,9 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
     }
 
 
-
     /**
      * 添加新的数据 带刷新
+     *
      * @param data
      */
     public void addNewDataWithNotify(Items data) {
@@ -94,19 +94,22 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         this.items.addAll(data);
         notifyDataSetChanged();
     }
+
     /**
      * 追加更多的数据 带刷新
+     *
      * @param data
      */
     public void addMoreDataWithNotify(Items data) {
-               int size = this.items.size();
+        int size = this.items.size();
         this.items.addAll(data);
-        this.notifyItemRangeInserted(size,data.size());
+        this.notifyItemRangeInserted(size, data.size());
 
     }
 
     /**
      * 局部刷新
+     *
      * @param newData
      * @param callBack
      */
@@ -114,14 +117,14 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         if (newData == null || newData.isEmpty()) {
             return;
         }
-        Items oldList =new Items(items);
+        Items oldList = new Items(items);
         final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new SimpleDiff(oldList, newData, callBack));
         this.items.clear();
         this.items.addAll(newData);
         if (Looper.myLooper() == Looper.getMainLooper()) {
             diffResult.dispatchUpdatesTo(this);
         } else {
-            ((Activity)mContext).runOnUiThread(new Runnable() {
+            ((Activity) mContext).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     diffResult.dispatchUpdatesTo(SimpleAdapter.this);
@@ -137,6 +140,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
 
     /**
      * 添加新的数据 不带刷新
+     *
      * @param data
      */
     public SimpleAdapter addNewData(Items data) {
@@ -147,6 +151,11 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
 
     public SimpleAdapter register(Class<?> clazz, ItemViewProvider<?> viewProvider) {
         SimpleAdapter.this.typePool.register(clazz, viewProvider);
+        return SimpleAdapter.this;
+    }
+
+    public SimpleAdapter attachToRecyclerView(RecyclerView recyclerView) {
+        recyclerView.setAdapter(SimpleAdapter.this);
         return SimpleAdapter.this;
     }
 

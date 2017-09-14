@@ -5,8 +5,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.yndongyong.widget.adapter.ItemViewProvider;
-import com.yndongyong.widget.adapter.SimpleViewHolder;
+import com.yndongyong.widget.multiitem.ItemViewProvider;
+import com.yndongyong.widget.multiitem.SimpleViewHolder;
 
 /**
  * Created by dongzhiyong on 2017/6/14.

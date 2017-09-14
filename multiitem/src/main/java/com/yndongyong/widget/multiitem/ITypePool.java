@@ -1,4 +1,4 @@
-package com.yndongyong.widget.adapter;
+package com.yndongyong.widget.multiitem;
 
 import java.util.List;
 
