@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
     private ITypePool typePool;
     private LayoutInflater inflater;
     private Context mContext;
+
+    private int position = -1;
 
 
     private SimpleAdapter(Context context) {
@@ -38,7 +41,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         if (inflater == null) {
             inflater = LayoutInflater.from(mContext);
         }
-        ItemViewProvider viewProvider = this.typePool.findViewProviderByIndex(viewType);
+        ItemViewProvider viewProvider = getItemViewProvider(this.position, viewType);
         viewProvider.simpleAdapter = this;
         viewProvider.context = mContext;
         return viewProvider.onCreateViewHolder(mContext, inflater, parent);
@@ -47,14 +50,15 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, int position) {
         int itemViewType = holder.getItemViewType();
-        ItemViewProvider viewProvider = this.typePool.findViewProviderByIndex(itemViewType);
+        ItemViewProvider viewProvider = getItemViewProvider(position, itemViewType);
         viewProvider.onBindViewHolder(holder, items.get(position));
     }
+
 
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, int position, List<Object> payloads) {
         int itemViewType = holder.getItemViewType();
-        ItemViewProvider viewProvider = this.typePool.findViewProviderByIndex(itemViewType);
+        ItemViewProvider viewProvider = getItemViewProvider(position, itemViewType);
         viewProvider.onBindViewHolder(holder, items.get(position), payloads);
     }
 
@@ -71,9 +75,31 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
+        this.position = position;
         Class<?> aClass = this.items.get(position).getClass();
-        return this.typePool.indexOfTypePool(aClass);
+        int indeOfClass = this.typePool.indexOfTypePool(aClass);
+        Convertor convertor = typePool.findConvertorByClass(aClass);
+        int indexOfProviders = convertor.index(this.items.get(position));
+        return indeOfClass + indexOfProviders;
     }
+
+
+    private ItemViewProvider getItemViewProvider(int position, int itemViewType) {
+        int indexOfProviders = indexOfProviders(position);
+        int indexOfClass = itemViewType - indexOfProviders;
+        List<ItemViewProvider> providers = this.typePool.findViewProvidersByIndex(indexOfClass);
+        return providers.get(indexOfProviders);
+    }
+
+    private int indexOfProviders(int position) {
+        Class<?> aClass = this.items.get(position).getClass();
+        Convertor convertor = typePool.findConvertorByClass(aClass);
+        int indexOfProviders = convertor.index(this.items.get(position));
+        return indexOfProviders;
+    }
+
+
+
 
    /* public void register(Class<?> clazz, ItemViewProvider<?> viewProvider) {
         this.typePool.register(clazz, viewProvider);
@@ -149,14 +175,19 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         return SimpleAdapter.this;
     }
 
-    public SimpleAdapter register(Class<?> clazz, ItemViewProvider<?> viewProvider) {
-        SimpleAdapter.this.typePool.register(clazz, viewProvider);
-        return SimpleAdapter.this;
-    }
-
     public SimpleAdapter attachToRecyclerView(RecyclerView recyclerView) {
         recyclerView.setAdapter(SimpleAdapter.this);
         return SimpleAdapter.this;
     }
 
+    public  SimpleAdapter register(Class<?> clazz, ItemViewProvider viewProvider) {
+        List<ItemViewProvider> providers = new ArrayList<>();
+        providers.add(viewProvider);
+        SimpleAdapter.this.typePool.register(clazz, providers, new DefaultConvertor());
+        return SimpleAdapter.this;
+    }
+    public SimpleAdapter register(Class<?> clazz, List<ItemViewProvider> viewProvider, Convertor convertor) {
+        SimpleAdapter.this.typePool.register(clazz, viewProvider, convertor);
+        return SimpleAdapter.this;
+    }
 }

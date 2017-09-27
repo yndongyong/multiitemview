@@ -12,11 +12,11 @@ import com.yndongyong.widget.multiitem.SimpleViewHolder;
  * Created by dongzhiyong on 2017/6/14.
  */
 
-public class Category4EntryItemViewProvider extends ItemViewProvider<CategoryEntry> {
+public class Category1EntryItemViewProvider extends ItemViewProvider<CategoryEntry> {
 
     @Override
     public int getLayoutId() {
-        return R.layout.item_category_4;
+        return R.layout.item_category_1;
     }
 
     @Override
