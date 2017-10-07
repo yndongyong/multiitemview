@@ -11,23 +11,23 @@ import java.util.Map;
  */
 public class MultiTypePool implements ITypePool {
 
-    private List<Class<?>> categorys;
-    private List<List<ItemViewProvider>> providers;
-    private Map<Class, Convertor> convertors;
+    private List<Class<?>> mCategorys;
+    private List<List<ItemViewProvider>> mProviders;
+    private Map<Class, Converter> mConverters;
 
 
     public MultiTypePool() {
-        this.categorys = new ArrayList<>(5);
-        this.providers = new ArrayList<>(5);
-        this.convertors = new HashMap<>(5);
+        this.mCategorys = new ArrayList<>(5);
+        this.mProviders = new ArrayList<>(5);
+        this.mConverters = new HashMap<>(5);
     }
 
     @Override
-    public void register(Class<?> clazz, List<ItemViewProvider> itemView, Convertor convertor) {
-        if (!this.categorys.contains(clazz)) {
-            this.categorys.add(clazz);
-            this.providers.add(itemView);
-            this.convertors.put(clazz, convertor);
+    public void register(Class<?> clazz, List<ItemViewProvider> itemView, Converter convertor) {
+        if (!this.mCategorys.contains(clazz)) {
+            this.mCategorys.add(clazz);
+            this.mProviders.add(itemView);
+            this.mConverters.put(clazz, convertor);
         } else {
             throw new RuntimeException(String.format("%s has register!!!", clazz.getCanonicalName().toString()));
         }
@@ -35,35 +35,30 @@ public class MultiTypePool implements ITypePool {
 
     @Override
     public void register(ITypePool pool) {
-        this.categorys.addAll(pool.getCategory());
+        this.mCategorys.addAll(pool.getCategory());
     }
 
     @Override
-    public int indexOfTypePool(Class<?> clazz) {
-        if (!this.categorys.contains(clazz)) {
+    public int indexOfCategorys(Class<?> clazz) {
+        if (!this.mCategorys.contains(clazz)) {
             throw new RuntimeException("Unregistered " + clazz.getSimpleName() + " type !!!");
         }
-        return this.categorys.indexOf(clazz);
+        return this.mCategorys.indexOf(clazz);
     }
 
     @Override
     public List<ItemViewProvider> findViewProvidersByIndex(int index) {
-        return this.providers.get(index);
+        return this.mProviders.get(index);
     }
 
     @Override
-    public ItemViewProvider getViewProviderByViewType(int viewType) {
-        return null;
-    }
-
-    @Override
-    public Convertor findConvertorByClass(Class clazz) {
-        return this.convertors.get(clazz);
+    public Converter findConverterByClass(Class clazz) {
+        return this.mConverters.get(clazz);
     }
 
     @Override
     public List<Class<?>> getCategory() {
-        return categorys;
+        return mCategorys;
     }
 
 }

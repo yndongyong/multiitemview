@@ -8,18 +8,18 @@ import java.util.List;
 
 public interface ITypePool {
 
-    void register(Class<?> clazz,List<ItemViewProvider> itemView ,Convertor convertor);
+    void register(Class<?> clazz,List<ItemViewProvider> itemView ,Converter convertor);
 
     void register(ITypePool pool);
 
-    int indexOfTypePool(Class<?> clazz);
-
+    int indexOfCategorys(Class<?> clazz);
 
     List<ItemViewProvider> findViewProvidersByIndex(int index);
 
-    ItemViewProvider getViewProviderByViewType(int viewType);
 
-    Convertor findConvertorByClass(Class clazz);
+//    ItemViewProvider getViewProviderByViewType(Class<?> clazz ,int viewType);
+
+    Converter findConverterByClass(Class clazz);
 
     List<Class<?>> getCategory();
 

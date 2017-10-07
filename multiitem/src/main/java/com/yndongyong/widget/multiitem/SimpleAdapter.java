@@ -77,10 +77,10 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
     public int getItemViewType(int position) {
         this.position = position;
         Class<?> aClass = this.items.get(position).getClass();
-        int indeOfClass = this.typePool.indexOfTypePool(aClass);
-        Convertor convertor = typePool.findConvertorByClass(aClass);
-        int indexOfProviders = convertor.index(this.items.get(position));
-        return indeOfClass + indexOfProviders;
+        int indexOfCategory = this.typePool.indexOfCategorys(aClass);
+        Converter converter = typePool.findConverterByClass(aClass);
+        int indexOfProviders = converter.index(this.items.get(position));
+        return indexOfCategory + indexOfProviders;
     }
 
 
@@ -91,9 +91,14 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         return providers.get(indexOfProviders);
     }
 
+    /**
+     *
+     * @param position
+     * @return
+     */
     private int indexOfProviders(int position) {
         Class<?> aClass = this.items.get(position).getClass();
-        Convertor convertor = typePool.findConvertorByClass(aClass);
+        Converter convertor = typePool.findConverterByClass(aClass);
         int indexOfProviders = convertor.index(this.items.get(position));
         return indexOfProviders;
     }
@@ -121,6 +126,13 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         notifyDataSetChanged();
     }
 
+    /**
+     * 追加更多的数据
+     * @param data
+     */
+    public void addMoreData(Items data) {
+        this.items.addAll(data);
+    }
     /**
      * 追加更多的数据 带刷新
      *
@@ -183,11 +195,11 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
     public  SimpleAdapter register(Class<?> clazz, ItemViewProvider viewProvider) {
         List<ItemViewProvider> providers = new ArrayList<>();
         providers.add(viewProvider);
-        SimpleAdapter.this.typePool.register(clazz, providers, new DefaultConvertor());
+        SimpleAdapter.this.typePool.register(clazz, providers, new DefaultConverter());
         return SimpleAdapter.this;
     }
-    public SimpleAdapter register(Class<?> clazz, List<ItemViewProvider> viewProvider, Convertor convertor) {
-        SimpleAdapter.this.typePool.register(clazz, viewProvider, convertor);
+    public SimpleAdapter register(Class<?> clazz, List<ItemViewProvider> viewProvider, Converter converter) {
+        SimpleAdapter.this.typePool.register(clazz, viewProvider, converter);
         return SimpleAdapter.this;
     }
 }
