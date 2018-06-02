@@ -1,64 +1,66 @@
 package com.yndongyong.widget.multiitem;
 
 
+import android.util.SparseArray;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by dongzhiyong on 2017/5/28.
  */
 public class MultiTypePool implements ITypePool {
 
-    private List<Class<?>> mCategorys;
-    private List<List<ItemViewProvider>> mProviders;
-    private Map<Class, Converter> mConverters;
-
+    private SparseArray<ItemViewProvider> mViewProviders;
+    private SparseArray<String> mDataType;
 
     public MultiTypePool() {
-        this.mCategorys = new ArrayList<>(5);
-        this.mProviders = new ArrayList<>(5);
-        this.mConverters = new HashMap<>(5);
+        this.mViewProviders = new SparseArray<>(3);
+        this.mDataType = new SparseArray<>(3);
     }
 
     @Override
-    public void register(Class<?> clazz, List<ItemViewProvider> itemView, Converter convertor) {
-        if (!this.mCategorys.contains(clazz)) {
-            this.mCategorys.add(clazz);
-            this.mProviders.add(itemView);
-            this.mConverters.put(clazz, convertor);
-        } else {
-            throw new RuntimeException(String.format("%s has register!!!", clazz.getCanonicalName().toString()));
+    public void register(ItemViewProvider itemView) {
+
+        Type genericSuperclass = itemView.getClass().getGenericSuperclass();
+        if (genericSuperclass instanceof ParameterizedType) {
+            Class<?> clazz = (Class<?>)((ParameterizedType) genericSuperclass).getActualTypeArguments()[0];
+            String typeName = clazz.getName();
+            int viewType = mViewProviders.size();
+            mViewProviders.put(viewType, itemView);
+            mDataType.put(viewType,typeName);
+
+        }else {
+            throw new RuntimeException(String.format("generic parameters error on %s !!!", itemView.getClass().getCanonicalName().toString()));
         }
+
     }
 
     @Override
     public void register(ITypePool pool) {
-        this.mCategorys.addAll(pool.getCategory());
-    }
-
-    @Override
-    public int indexOfCategorys(Class<?> clazz) {
-        if (!this.mCategorys.contains(clazz)) {
-            throw new RuntimeException("Unregistered " + clazz.getSimpleName() + " type !!!");
+        SparseArray<ItemViewProvider> allItemViewProvider = pool.getAllItemViewProvider();
+        for (int i=0;i<allItemViewProvider.size();i++) {
+            register(allItemViewProvider.get(i));
         }
-        return this.mCategorys.indexOf(clazz);
     }
 
     @Override
-    public List<ItemViewProvider> findViewProvidersByIndex(int index) {
-        return this.mProviders.get(index);
+    public SparseArray<ItemViewProvider> getAllItemViewProvider() {
+        return mViewProviders;
     }
 
     @Override
-    public Converter findConverterByClass(Class clazz) {
-        return this.mConverters.get(clazz);
+    public List<Integer> findItemViewProviderAllIndex(String typeName) {
+        List<Integer> indexs = new ArrayList<>();
+        for (int i=0;i<mDataType.size();i++) {
+            if (mDataType.get(i).equals(typeName)) {
+                indexs.add(i);
+            }
+        }
+        return indexs;
     }
 
-    @Override
-    public List<Class<?>> getCategory() {
-        return mCategorys;
-    }
 
 }

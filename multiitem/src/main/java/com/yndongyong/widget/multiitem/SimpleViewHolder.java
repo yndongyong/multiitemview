@@ -53,7 +53,7 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public SimpleViewHolder setText(int viewId, @StringRes int resId) {
+    public SimpleViewHolder setText(@IdRes int viewId, @StringRes int resId) {
         TextView textView = getView(viewId);
         textView.setText(mContext.getString(resId));
         return this;

@@ -12,11 +12,11 @@ import com.yndongyong.widget.multiitem.SimpleViewHolder;
  * Created by dongzhiyong on 2017/6/14.
  */
 
-public class Category4EntryItemViewProvider extends ItemViewProvider<CategoryEntry> {
+public class Category2EntryItemViewProvider extends ItemViewProvider<CategoryEntry> {
 
     @Override
     public int getLayoutId() {
-        return R.layout.item_category_4;
+        return R.layout.item_category_2;
     }
 
     @Override
@@ -30,5 +30,11 @@ public class Category4EntryItemViewProvider extends ItemViewProvider<CategoryEnt
                 Toast.makeText(holder.getContext(),  "click image position:" + holder.getAdapterPosition() + ";", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    @Override
+    public boolean accept(CategoryEntry categoryEntry, int position) {
+        return categoryEntry.getType() == 2;
     }
 }

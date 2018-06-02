@@ -1,5 +1,7 @@
 package com.yndongyong.widget.multiitem;
 
+import android.util.SparseArray;
+
 import java.util.List;
 
 /**
@@ -8,19 +10,13 @@ import java.util.List;
 
 public interface ITypePool {
 
-    void register(Class<?> clazz,List<ItemViewProvider> itemView ,Converter convertor);
+    void register(ItemViewProvider itemView);
 
     void register(ITypePool pool);
 
-    int indexOfCategorys(Class<?> clazz);
+    SparseArray<ItemViewProvider> getAllItemViewProvider();
 
-    List<ItemViewProvider> findViewProvidersByIndex(int index);
+    List<Integer> findItemViewProviderAllIndex(String typeName);
 
-
-//    ItemViewProvider getViewProviderByViewType(Class<?> clazz ,int viewType);
-
-    Converter findConverterByClass(Class clazz);
-
-    List<Class<?>> getCategory();
 
 }

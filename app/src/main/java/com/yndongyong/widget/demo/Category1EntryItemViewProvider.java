@@ -31,4 +31,9 @@ public class Category1EntryItemViewProvider extends ItemViewProvider<CategoryEnt
             }
         });
     }
+
+    @Override
+    public boolean accept(CategoryEntry categoryEntry, int position) {
+        return categoryEntry.getType() ==1;
+    }
 }
