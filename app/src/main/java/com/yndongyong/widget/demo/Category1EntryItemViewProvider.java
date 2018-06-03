@@ -8,6 +8,8 @@ import com.bumptech.glide.Glide;
 import com.yndongyong.widget.multiitem.ItemViewProvider;
 import com.yndongyong.widget.multiitem.SimpleViewHolder;
 
+import java.util.List;
+
 /**
  * Created by dongzhiyong on 2017/6/14.
  */
@@ -31,6 +33,7 @@ public class Category1EntryItemViewProvider extends ItemViewProvider<CategoryEnt
             }
         });
     }
+
 
     @Override
     public boolean accept(CategoryEntry categoryEntry, int position) {
