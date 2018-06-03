@@ -4,7 +4,7 @@ RecylerView multi item view type
 
 作用：简化adapter中涉及多种ItemView布局的写法，使用对象池存放布局对象(ItemViewProvider)，每一个布局委托一个ItemViewProvider，并在其中封装布局与对象绑定相关的逻辑，简化Adapter。
 
-###特性
+### 特性
 
 - 极少的类文件
 - 简化Adapter的写法，直接使用SimpleAdapter
@@ -13,7 +13,7 @@ RecylerView multi item view type
 - 支持一种数据类型对应多种布局
 
 
-###主要涉及的类
+### 主要涉及的类
 
 #### SimpleAdapter
 继承RecylerView的adapter，简化多类型Item的Adapter写法。
