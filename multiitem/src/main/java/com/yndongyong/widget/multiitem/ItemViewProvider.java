@@ -24,7 +24,8 @@ public abstract class ItemViewProvider<T>  {
     }
 
     /**
-     * 判断 是否可以处理T 这种类型,已过一个T 类型的数据对应两种Itemviewprovider 那么都需要重写该方法
+     * 判断 是否可以处理T 这种类型,如果一个T 类型的数据对应多种Itemviewprovider 那么都需要重写该方法
+     * 如果只有一种viewtype则不用重写
      * @param t
      * @param position adapter 中的下标
      * @return
@@ -34,16 +35,7 @@ public abstract class ItemViewProvider<T>  {
     }
 
     /**
-     *  为当前provider可以的处理的T类型增加一个tag标识，通过accept和tag共同判断是或否可以处理T类型
-     * @param t
-     * @return
-     */
-    public String getTag(T t) {
-        return "";
-    }
-
-    /**
-     * T类 对应的itemview的布局文件
+     * T类 对应的itemviewtype的布局文件
      * @return
      */
     public abstract int getLayoutId();

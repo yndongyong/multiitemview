@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -31,10 +32,6 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         this.mTypePool = new MultiTypePool();
     }
 
-    public static SimpleAdapter create(Context context) {
-        SimpleAdapter adapter = new SimpleAdapter(context);
-        return adapter;
-    }
 
     @NonNull
     @Override
@@ -98,10 +95,6 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         return mTypePool.getAllItemViewProvider().valueAt(itemViewType);
     }
 
-    public void register(ITypePool pool) {
-        this.mTypePool.register(pool);
-    }
-
     /**
      * 添加新的数据 带刷新
      *
@@ -160,6 +153,13 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         }
     }
 
+    //为方便使用添加的方法
+
+    public static SimpleAdapter create(Context context) {
+        SimpleAdapter adapter = new SimpleAdapter(context);
+        return adapter;
+    }
+
     /**
      * 添加新的数据 不带刷新
      *
@@ -171,13 +171,15 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         return SimpleAdapter.this;
     }
 
+    public SimpleAdapter register(ItemViewProvider<?> viewProvider) {
+        SimpleAdapter.this.mTypePool.register(viewProvider);
+        return SimpleAdapter.this;
+    }
+
     public SimpleAdapter attachToRecyclerView(RecyclerView recyclerView) {
         recyclerView.setAdapter(SimpleAdapter.this);
         return SimpleAdapter.this;
     }
 
-    public SimpleAdapter register(ItemViewProvider<?> viewProvider) {
-        SimpleAdapter.this.mTypePool.register(viewProvider);
-        return SimpleAdapter.this;
-    }
+
 }
