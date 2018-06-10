@@ -22,11 +22,11 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
     private LayoutInflater mLayoutInflater;
     private Context mContext;
 
-    private SimpleAdapter(Context context) {
+    public SimpleAdapter(Context context) {
         this(context, new Items());
     }
 
-    private SimpleAdapter(Context context, Items items) {
+    public SimpleAdapter(Context context, Items items) {
         this.mContext = context;
         this.mItems = items;
         this.mTypePool = new MultiTypePool();
@@ -40,8 +40,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
             mLayoutInflater = LayoutInflater.from(mContext);
         }
         ItemViewProvider viewProvider = getItemViewProvider(viewType);
-        viewProvider.simpleAdapter = this;
-        viewProvider.context = mContext;
+        viewProvider.mSimpleAdapter = this;
+        viewProvider.mContext = mContext;
         return viewProvider.onCreateViewHolder(mContext, mLayoutInflater, parent);
     }
 
@@ -151,6 +151,10 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
                 }
             });
         }
+    }
+
+    public SparseArray<ItemViewProvider> getAllItemViewProvider() {
+        return mTypePool.getAllItemViewProvider();
     }
 
     //为方便使用添加的方法

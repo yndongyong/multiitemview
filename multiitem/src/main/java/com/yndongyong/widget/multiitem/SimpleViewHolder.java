@@ -21,11 +21,11 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder {
 
     private SparseArray<View> viewMap;
     private Context mContext;
-    public View itemView;
+    public View mRootView;
 
     public SimpleViewHolder(View itemView) {
         super(itemView);
-        this.itemView = itemView;
+        this.mRootView = itemView;
         viewMap = new SparseArray<>();
     }
 
@@ -37,7 +37,7 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder {
     public final <T extends View> T getView(int id) {
         View view = viewMap.get(id);
         if (view == null) {
-            view = itemView.findViewById(id);
+            view = mRootView.findViewById(id);
             viewMap.put(id, view);
         }
         return (T) view;
@@ -134,7 +134,7 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder {
     }
 
     public SimpleViewHolder setOnClickListener(View.OnClickListener listener) {
-        itemView.setOnClickListener(listener);
+        mRootView.setOnClickListener(listener);
         return this;
     }
 
@@ -144,7 +144,7 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder {
     }
 
     public SimpleViewHolder setOnLongClickListener(View.OnLongClickListener onLongClickListener) {
-        itemView.setOnLongClickListener(onLongClickListener);
+        mRootView.setOnLongClickListener(onLongClickListener);
         return this;
     }
 
