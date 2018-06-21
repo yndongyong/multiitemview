@@ -1,8 +1,8 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'com.novoda.bintray-release'//添加
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion "25.0.3"
 
     defaultConfig {
         minSdkVersion 16
@@ -22,11 +22,18 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.0'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:recyclerview-v7:25.3.0'
+    provided 'com.android.support:appcompat-v7:25.3.0'
+    provided 'com.android.support:recyclerview-v7:25.3.0'
+}
+//添加
+publish {
+    userOrg = 'yndongyong'//bintray.com用户名
+    groupId = 'com.yndongyong'//jcenter上的路径
+    artifactId = 'simpleadapter'//项目名称
+    publishVersion = '0.0.6'//版本号
+    desc = 'desc'//描述，
+    website = 'https://github.com/yndongyong/multiitemview'//网站，
 }

@@ -1,5 +1,6 @@
 package com.yndongyong.widget.demo;
 
+
 import java.util.List;
 
 /**
@@ -8,13 +9,13 @@ import java.util.List;
 
 public class Category3Entry {
 
-    private List<Category2Entry> datas;
+    private List<CategoryEntry> categoryEntries;
 
-    public List<Category2Entry> getDatas() {
-        return datas;
+    public List<CategoryEntry> getCategoryEntries() {
+        return categoryEntries;
     }
 
-    public void setDatas(List<Category2Entry> datas) {
-        this.datas = datas;
+    public void setCategoryEntries(List<CategoryEntry> categoryEntries) {
+        this.categoryEntries = categoryEntries;
     }
 }

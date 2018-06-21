@@ -1,16 +1,25 @@
 package com.yndongyong.widget.demo;
 
+
 /**
  * Created by dongzhiyong on 2017/5/29.
  */
 
-public class Category2Entry {
+public class NewsEntry {
+
     private String url;
     private String description;
+    private int type = 1;
 
-    public Category2Entry(String url, String description) {
+    public NewsEntry(String url, String description) {
         this.url = url;
         this.description = description;
+    }
+
+    public NewsEntry(String url, String description, int type) {
+        this.url = url;
+        this.description = description;
+        this.type = type;
     }
 
     public String getUrl() {
@@ -27,5 +36,9 @@ public class Category2Entry {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getType() {
+        return type;
     }
 }
