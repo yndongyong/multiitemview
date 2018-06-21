@@ -56,7 +56,11 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
     public void onBindViewHolder(SimpleViewHolder holder, int position, List<Object> payloads) {
         int itemViewType = holder.getItemViewType();
         ItemViewProvider viewProvider = getItemViewProvider(itemViewType);
-        viewProvider.onBindViewHolder(holder, mItems.get(position), payloads);
+        if (!payloads.isEmpty()) {
+            viewProvider.onBindViewHolder(holder, mItems.get(position), payloads);
+        } else {
+            viewProvider.onBindViewHolder(holder, mItems.get(position));
+        }
     }
 
     @Override
@@ -92,7 +96,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
     }
 
     private ItemViewProvider getItemViewProvider(int itemViewType) {
-        return mTypePool.getAllItemViewProvider().valueAt(itemViewType);
+        return mTypePool.getAllItemViewProvider().get(itemViewType);
     }
 
     /**

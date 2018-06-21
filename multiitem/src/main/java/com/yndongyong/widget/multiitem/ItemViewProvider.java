@@ -19,9 +19,11 @@ public abstract class ItemViewProvider<T>  {
         return new SimpleViewHolder(context,inflater.inflate(getLayoutId(),parent,false));
     }
 
-    protected void onBindViewHolder(SimpleViewHolder holder, T entity, List<Object> payloads) {
-        onBindViewHolder(holder,entity);
-    }
+    /**
+     * T类 对应的itemviewtype的布局文件
+     * @return
+     */
+    public abstract int getLayoutId();
 
     /**
      * 判断 是否可以处理T 这种类型,如果一个T 类型的数据对应多种Itemviewprovider 那么都需要重写该方法
@@ -35,17 +37,19 @@ public abstract class ItemViewProvider<T>  {
     }
 
     /**
-     * T类 对应的itemviewtype的布局文件
-     * @return
-     */
-    public abstract int getLayoutId();
-
-    /**
-     *
+     * 绑定View 和 Entity
      * @param holder 通用的ViewHolder
      * @param entity
      */
     public abstract  void onBindViewHolder(SimpleViewHolder holder, T entity);
 
+    /**
+     * 对应Adapter的onBindViewHolder的局部刷新方法
+     * @param holder
+     * @param entity
+     * @param payloads
+     */
+    protected void onBindViewHolder(SimpleViewHolder holder, T entity, List<Object> payloads) {
+    }
 
 }

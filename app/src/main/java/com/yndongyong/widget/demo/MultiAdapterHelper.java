@@ -14,7 +14,7 @@ import static com.yndongyong.widget.demo.BaseItemDecoration.VERTICAL;
 
 public class MultiAdapterHelper {
 
-    private static final int SPAN_SIZE = 2;
+    private static final int SPAN_SIZE = 3;
     private Items mDatas;
 //
 //    public MultiAdapterHelper(Context mContext, Items datas) {
