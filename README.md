@@ -11,9 +11,9 @@ onBindViewHolder增加增量更新的默认空实现
 0.0.5：
 重新实现一种数据类型对应多种布局样式
 
+### 作用
 
-
-作用：简化adapter中涉及多种ItemView布局的写法，使用对象池存放布局对象(ItemViewProvider)，每一个布局委托一个ItemViewProvider，并在其中封装布局与对象绑定相关的逻辑，简化Adapter。
+简化adapter中涉及多种ItemView布局的写法，使用对象池存放布局对象(ItemViewProvider)，每一个布局委托一个ItemViewProvider，并在其中封装布局与对象绑定相关的逻辑，简化Adapter。
 
 ### 特性
 

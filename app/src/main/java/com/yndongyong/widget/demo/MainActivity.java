@@ -25,24 +25,24 @@ public class MainActivity extends AppCompatActivity {
         rv_list = (RecyclerView) findViewById(R.id.rv_list);
 
         items.add("头部1 -- type1");
-        items.add(new CategoryEntry("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg", "风景图片1"));
-        items.add(new CategoryEntry("http://img0.imgtn.bdimg.com/it/u=1610953019,3012342313&fm=214&gp=0.jpg", "风景图片2"));
+        items.add(new CategoryEntry("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550054128121&di=4288f93d40b58291f2fd45419ffc39dd&imgtype=0&src=http%3A%2F%2Fimg17.3lian.com%2Fd%2Ffile%2F201702%2F18%2F2b5f1b6298411b0045c5562da02fc6ac.jpg", "风景图片1"));
+        items.add(new CategoryEntry("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550054184708&di=16874780ddd31e1b429acbba458061cb&imgtype=0&src=http%3A%2F%2Fpic30.photophoto.cn%2F20140115%2F0040039504628208_b.jpg", "风景图片2"));
 
         items.add("头部2 -- type2");
-        items.add(new CategoryEntry("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg", "风景图片4", 2));
-        items.add(new CategoryEntry("http://img0.imgtn.bdimg.com/it/u=1610953019,3012342313&fm=214&gp=0.jpg", "风景图片5", 2));
+        items.add(new CategoryEntry("", "风景图片4", 2));
+        items.add(new CategoryEntry("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550054184708&di=16874780ddd31e1b429acbba458061cb&imgtype=0&src=http%3A%2F%2Fpic30.photophoto.cn%2F20140115%2F0040039504628208_b.jpg", "风景图片5", 2));
 
 //        items.add(new CategoryEntry("http://scimg.jb51.net/allimg/150819/14-150QZ9194K27.jpg", "风景图片6", 2));
 
 
         Category3Entry category3Entry = new Category3Entry();
         List<CategoryEntry> categoryEntries = new ArrayList<>();
-        categoryEntries.add(new CategoryEntry("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg", "风景图片1", 2));
-        categoryEntries.add(new CategoryEntry("http://img0.imgtn.bdimg.com/it/u=1610953019,3012342313&fm=214&gp=0.jpg", "风景图片2", 2));
+        categoryEntries.add(new CategoryEntry("", "风景图片1", 2));
+        categoryEntries.add(new CategoryEntry("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550054184708&di=16874780ddd31e1b429acbba458061cb&imgtype=0&src=http%3A%2F%2Fpic30.photophoto.cn%2F20140115%2F0040039504628208_b.jpg", "风景图片2", 2));
         categoryEntries.add(new CategoryEntry("http://scimg.jb51.net/allimg/150819/14-150QZ9194K27.jpg", "风景图片3", 2));
-        categoryEntries.add(new CategoryEntry("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg",
+        categoryEntries.add(new CategoryEntry("",
                 "风景图片4", 2));
-        categoryEntries.add(new CategoryEntry("http://img0.imgtn.bdimg.com/it/u=1610953019,3012342313&fm=214&gp=0.jpg",
+        categoryEntries.add(new CategoryEntry("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550054184511&di=c2ec0c012b749893e8e816fab94c5674&imgtype=0&src=http%3A%2F%2Fpic26.nipic.com%2F20121225%2F6440111_111538500168_2.jpg",
                 "风景图片5", 2));
         categoryEntries.add(new CategoryEntry("http://scimg.jb51.net/allimg/150819/14-150QZ9194K27.jpg",
                 "风景图片6", 2));
@@ -52,22 +52,22 @@ public class MainActivity extends AppCompatActivity {
         items.add(category3Entry);
 
         items.add("头部3 -- type1");
-        items.add(new CategoryEntry("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg", "风景图片4"));
-        items.add(new CategoryEntry("http://img0.imgtn.bdimg.com/it/u=1610953019,3012342313&fm=214&gp=0.jpg", "风景图片5"));
+        items.add(new CategoryEntry("", "风景图片4"));
+        items.add(new CategoryEntry("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550054184708&di=16874780ddd31e1b429acbba458061cb&imgtype=0&src=http%3A%2F%2Fpic30.photophoto.cn%2F20140115%2F0040039504628208_b.jpg", "风景图片5"));
         items.add(new CategoryEntry("http://scimg.jb51.net/allimg/150819/14-150QZ9194K27.jpg", "风景图片6"));
 
 
         items.add("头部4 -- type2");
-        items.add(new CategoryEntry("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg",
+        items.add(new CategoryEntry("",
                 "风景图片4", 2));
-        items.add(new CategoryEntry("http://img0.imgtn.bdimg.com/it/u=1610953019,3012342313&fm=214&gp=0.jpg",
+        items.add(new CategoryEntry("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550054184708&di=16874780ddd31e1b429acbba458061cb&imgtype=0&src=http%3A%2F%2Fpic30.photophoto.cn%2F20140115%2F0040039504628208_b.jpg",
                 "风景图片5", 2));
         items.add(new CategoryEntry("http://scimg.jb51.net/allimg/150819/14-150QZ9194K27.jpg",
                 "风景图片6", 2));
 
         items.add("头部5 -- type1");
-        items.add(new CategoryEntry("http://pic.58pic.com/58pic/14/27/45/71r58PICmDM_1024.jpg", "风景图片4"));
-        items.add(new CategoryEntry("http://img0.imgtn.bdimg.com/it/u=1610953019,3012342313&fm=214&gp=0.jpg", "风景图片5"));
+        items.add(new CategoryEntry("", "风景图片4"));
+        items.add(new CategoryEntry("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550054184708&di=16874780ddd31e1b429acbba458061cb&imgtype=0&src=http%3A%2F%2Fpic30.photophoto.cn%2F20140115%2F0040039504628208_b.jpg", "风景图片5"));
         items.add(new CategoryEntry("http://scimg.jb51.net/allimg/150819/14-150QZ9194K27.jpg", "风景图片6"));
 
 
