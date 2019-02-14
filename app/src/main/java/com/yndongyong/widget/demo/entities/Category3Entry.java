@@ -1,4 +1,4 @@
-package com.yndongyong.widget.demo;
+package com.yndongyong.widget.demo.entities;
 
 
 import java.util.List;

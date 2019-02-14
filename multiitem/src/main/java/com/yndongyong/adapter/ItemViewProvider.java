@@ -1,4 +1,4 @@
-package com.yndongyong.widget.multiitem;
+package com.yndongyong.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,13 +7,12 @@ import android.view.ViewGroup;
 import java.util.List;
 
 /**
- * Created by dongzhiyong on 2017/5/28.
+ * Created by yndongyong on 2017/5/28.
  */
 
 public abstract class ItemViewProvider<T>  {
 
     public SimpleAdapter mSimpleAdapter;
-    public Context mContext;
 
     protected SimpleViewHolder onCreateViewHolder(Context context, LayoutInflater inflater, ViewGroup parent){
         return new SimpleViewHolder(context,inflater.inflate(getLayoutId(),parent,false));

@@ -1,12 +1,14 @@
-package com.yndongyong.widget.demo;
+package com.yndongyong.widget.demo.viewproviders;
 
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.yndongyong.widget.multiitem.ItemViewProvider;
-import com.yndongyong.widget.multiitem.SimpleViewHolder;
+import com.yndongyong.adapter.ItemViewProvider;
+import com.yndongyong.adapter.SimpleViewHolder;
+import com.yndongyong.widget.demo.R;
+import com.yndongyong.widget.demo.entities.CategoryEntry;
 
 /**
  * Created by dongzhiyong on 2017/6/14.

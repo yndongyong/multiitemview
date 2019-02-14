@@ -1,4 +1,4 @@
-package com.yndongyong.widget.multiitem;
+package com.yndongyong.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,17 +10,26 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by dongzhiyong on 2017/5/29.
+ * Created by yndongyong on 2017/5/29.
  */
 public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
 
     private Items mItems;
-    private ITypePool mTypePool;
     private LayoutInflater mLayoutInflater;
+    //context 一直传递到ItemViewProvider内部
     private Context mContext;
+
+    //key: viewtype
+    private SparseArray<ItemViewProvider> mViewProviders = new SparseArray<>(3);
+    //key: viewtype
+    private SparseArray<String> mDataType= new SparseArray<>(3);
+
 
     public SimpleAdapter(Context context) {
         this(context, new Items());
@@ -29,9 +38,7 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
     public SimpleAdapter(Context context, Items items) {
         this.mContext = context;
         this.mItems = items;
-        this.mTypePool = new MultiTypePool();
     }
-
 
     @NonNull
     @Override
@@ -41,7 +48,6 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         }
         ItemViewProvider viewProvider = getItemViewProvider(viewType);
         viewProvider.mSimpleAdapter = this;
-        viewProvider.mContext = mContext;
         return viewProvider.onCreateViewHolder(mContext, mLayoutInflater, parent);
     }
 
@@ -70,19 +76,19 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
 
         String typeName = entity.getClass().getName();
 
-        List<Integer> itemViewProviderIndexs = mTypePool.findItemViewProviderAllIndex(typeName);
+        List<Integer> itemViewProviderIndexes = findItemViewProviderAllViewType(typeName);
 
-        if (itemViewProviderIndexs.size() == 0) {
-            throw new RuntimeException(String.format(" %s ItemViewProvider is not register !!!", entity.getClass().getSimpleName().toString()));
+        if (itemViewProviderIndexes.size() == 0) {
+            throw new RuntimeException(String.format(" %s ItemViewProvider is not register !!!", entity.getClass().getSimpleName()));
 
         }
-        for (Integer index : itemViewProviderIndexs) {
-            ItemViewProvider itemViewProvider = mTypePool.getAllItemViewProvider().valueAt(index);
+        for (Integer index : itemViewProviderIndexes) {
+            ItemViewProvider itemViewProvider = mViewProviders.valueAt(index);
             if (itemViewProvider != null && itemViewProvider.accept(entity, position)) {
                 return index;
             }
         }
-        throw new RuntimeException(String.format(" %s's ItemViewProvider a branch is not register !!!", entity.getClass().getSimpleName().toString()));
+        throw new RuntimeException(String.format(" %s's ItemViewProvider a branch is not register !!!", entity.getClass().getSimpleName()));
     }
 
     @Override
@@ -95,13 +101,63 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         return this.mItems == null ? 0 : this.mItems.size();
     }
 
+
+    public void register(ItemViewProvider itemView) {
+        Type genericSuperclass = itemView.getClass().getGenericSuperclass();
+        if (genericSuperclass instanceof ParameterizedType) {
+            Class<?> clazz = (Class<?>)((ParameterizedType) genericSuperclass).getActualTypeArguments()[0];
+            String typeName = clazz.getName();
+            int viewType = mViewProviders.size();
+            mViewProviders.put(viewType, itemView);
+            mDataType.put(viewType,typeName);
+
+        }else {
+            throw new RuntimeException(String.format("generic parameters error on %s !!!", itemView.getClass().getCanonicalName().toString()));
+        }
+
+    }
+
+
+    /**
+     * 根据 类名名称 找到支持的多个ItemViewProvider的viewtype数组
+     * @param typeName entity类型对应的类名
+     * @return viewtype数组
+     */
+    private List<Integer> findItemViewProviderAllViewType(String typeName) {
+        List<Integer> indexes = new ArrayList<>();
+        for (int i=0;i<mDataType.size();i++) {
+            if (mDataType.get(i).equals(typeName)) {
+                indexes.add(i);
+            }
+        }
+        return indexes;
+    }
+
+    /**
+     * 通过itemViewType找到 ItemViewProvider
+     * @param itemViewType viewType
+     * @return ItemViewProvider
+     */
     private ItemViewProvider getItemViewProvider(int itemViewType) {
-        return mTypePool.getAllItemViewProvider().get(itemViewType);
+        return mViewProviders.get(itemViewType);
+    }
+
+    public SparseArray<ItemViewProvider> getAllItemViewProvider() {
+        return mViewProviders;
+    }
+
+
+    /**
+     * 添加新的数据 不带刷新
+     * @param data
+     */
+    public void addNewData(Items data) {
+        this.mItems.clear();
+        this.mItems.addAll(data);
     }
 
     /**
      * 添加新的数据 带刷新
-     *
      * @param data
      */
     public void addNewDataWithNotify(Items data) {
@@ -112,7 +168,6 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
 
     /**
      * 追加更多的数据
-     *
      * @param data
      */
     public void addMoreData(Items data) {
@@ -157,37 +212,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
         }
     }
 
-    public SparseArray<ItemViewProvider> getAllItemViewProvider() {
-        return mTypePool.getAllItemViewProvider();
-    }
 
-    //为方便使用添加的方法
 
-    public static SimpleAdapter create(Context context) {
-        SimpleAdapter adapter = new SimpleAdapter(context);
-        return adapter;
-    }
-
-    /**
-     * 添加新的数据 不带刷新
-     *
-     * @param data
-     */
-    public SimpleAdapter addNewData(Items data) {
-        this.mItems.clear();
-        this.mItems.addAll(data);
-        return SimpleAdapter.this;
-    }
-
-    public SimpleAdapter register(ItemViewProvider<?> viewProvider) {
-        SimpleAdapter.this.mTypePool.register(viewProvider);
-        return SimpleAdapter.this;
-    }
-
-    public SimpleAdapter attachToRecyclerView(RecyclerView recyclerView) {
-        recyclerView.setAdapter(SimpleAdapter.this);
-        return SimpleAdapter.this;
-    }
 
 
 }

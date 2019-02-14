@@ -1,10 +1,12 @@
-package com.yndongyong.widget.demo;
+package com.yndongyong.widget.demo.viewproviders;
 
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.yndongyong.widget.multiitem.ItemViewProvider;
-import com.yndongyong.widget.multiitem.SimpleViewHolder;
+import com.yndongyong.adapter.ItemViewProvider;
+import com.yndongyong.adapter.SimpleViewHolder;
+import com.yndongyong.widget.demo.R;
+import com.yndongyong.widget.demo.entities.NewsEntry;
 
 public class NewsEntryStyle3ItemViewProvider extends ItemViewProvider<NewsEntry> {
     @Override

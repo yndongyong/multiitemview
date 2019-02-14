@@ -1,12 +1,15 @@
-package com.yndongyong.widget.demo;
+package com.yndongyong.widget.demo.viewproviders;
 
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.yndongyong.widget.multiitem.ItemViewProvider;
-import com.yndongyong.widget.multiitem.SimpleViewHolder;
+import com.yndongyong.adapter.ItemViewProvider;
+import com.yndongyong.adapter.SimpleViewHolder;
+import com.yndongyong.widget.demo.R;
+import com.yndongyong.widget.demo.SecondActivity;
+import com.yndongyong.widget.demo.entities.CategoryEntry;
 
 /**
  * Created by dongzhiyong on 2017/6/14.
@@ -27,8 +30,8 @@ public class Category1EntryItemViewProvider extends ItemViewProvider<CategoryEnt
         holder.setOnClickListener(R.id.iv_icon, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, SecondActivity.class);
-                mContext.startActivity(intent);
+                Intent intent = new Intent(holder.getContext(), SecondActivity.class);
+                holder.getContext().startActivity(intent);
 //                Toast.makeText(holder.getContext(),  "click image position:" + holder.getAdapterPosition() + ";", Toast.LENGTH_SHORT).show();
             }
         });

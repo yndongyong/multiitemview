@@ -1,4 +1,4 @@
-package com.yndongyong.widget.multiitem;
+package com.yndongyong.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -14,14 +14,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by dongzhiyong on 2017/6/14.
+ * Created by yndongyong on 2017/6/14.
  */
 
 public class SimpleViewHolder extends RecyclerView.ViewHolder {
 
     private SparseArray<View> viewMap;
     private Context mContext;
-    public View mRootView;
+    private View mRootView;
 
     public SimpleViewHolder(View itemView) {
         super(itemView);
@@ -65,13 +65,13 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
-    public SimpleViewHolder textSize(@IdRes int viewId, int sp) {
+    public SimpleViewHolder setTextSize(@IdRes int viewId, int sp) {
         TextView textView = getView(viewId);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, sp);
         return this;
     }
 
-    public SimpleViewHolder textSize(@IdRes int viewId, int unit, int size) {
+    public SimpleViewHolder setTextSize(@IdRes int viewId, int unit, int size) {
         TextView textView = getView(viewId);
         textView.setTextSize(unit, size);
         return this;
@@ -107,19 +107,14 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-    public SimpleViewHolder alpha(@IdRes int viewId, float alpha) {
+    public SimpleViewHolder setAlpha(@IdRes int viewId, float alpha) {
         getView(viewId).setAlpha(alpha);
         return this;
     }
 
 
-    public SimpleViewHolder setVisible(@IdRes int viewId, boolean visible) {
+    public SimpleViewHolder setVisibility(@IdRes int viewId, boolean visible) {
         getView(viewId).setVisibility(visible ? View.VISIBLE : View.GONE);
-        return this;
-    }
-
-    public SimpleViewHolder setInvisible(@IdRes int viewId) {
-        getView(viewId).setVisibility(View.INVISIBLE);
         return this;
     }
 

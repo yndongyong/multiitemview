@@ -1,4 +1,4 @@
-package com.yndongyong.widget.demo;
+package com.yndongyong.widget.demo.viewproviders;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
@@ -6,10 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.yndongyong.widget.multiitem.ItemViewProvider;
-import com.yndongyong.widget.multiitem.Items;
-import com.yndongyong.widget.multiitem.SimpleAdapter;
-import com.yndongyong.widget.multiitem.SimpleViewHolder;
+import com.yndongyong.adapter.ItemViewProvider;
+import com.yndongyong.adapter.Items;
+import com.yndongyong.adapter.SimpleAdapter;
+import com.yndongyong.adapter.SimpleViewHolder;
+import com.yndongyong.widget.demo.R;
+import com.yndongyong.widget.demo.entities.Category3Entry;
 
 /**
  * Created by dongzhiyong on 2017/6/14.
@@ -38,11 +40,11 @@ public class Category3EntryItemViewProvider extends ItemViewProvider<Category3En
         items = new Items();
         items.addAll(entity.getCategoryEntries());
 
-        simpleAdapter = SimpleAdapter.create(holder.getContext())
-                .addNewData(items)
-                .register(new Category1EntryItemViewProvider())
-                .register(new Category2EntryItemViewProvider())
-                .attachToRecyclerView(rv_list);
+
+        simpleAdapter = new SimpleAdapter(holder.getContext(), items);
+        simpleAdapter.register(new Category1EntryItemViewProvider());
+        simpleAdapter.register(new Category2EntryItemViewProvider());
+        rv_list.setAdapter(simpleAdapter);
     }
 
 }

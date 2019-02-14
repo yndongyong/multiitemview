@@ -5,22 +5,20 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 
-import com.yndongyong.widget.multiitem.ItemViewProvider;
-import com.yndongyong.widget.multiitem.Items;
-import com.yndongyong.widget.multiitem.SimpleAdapter;
+import com.yndongyong.adapter.ItemViewProvider;
+import com.yndongyong.adapter.Items;
+import com.yndongyong.adapter.SimpleAdapter;
+import com.yndongyong.widget.demo.viewproviders.NewsEntryStyle1ItemViewProvider;
+import com.yndongyong.widget.demo.viewproviders.NewsEntryStyle2ItemViewProvider;
+import com.yndongyong.widget.demo.viewproviders.NewsEntryStyle3ItemViewProvider;
 
-import static com.yndongyong.widget.demo.BaseItemDecoration.HORIZONTAL;
 import static com.yndongyong.widget.demo.BaseItemDecoration.VERTICAL;
 
 public class MultiAdapterHelper {
 
     private static final int SPAN_SIZE = 3;
     private Items mDatas;
-//
-//    public MultiAdapterHelper(Context mContext, Items datas) {
-//        super(mContext, datas);
-//        this.mDatas = datas;
-//    }
+
     private SparseArray<ItemViewProvider> mItemViewProviders;
     private SimpleAdapter mSimpleAdapter;
 

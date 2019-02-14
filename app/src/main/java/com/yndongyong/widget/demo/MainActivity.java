@@ -4,8 +4,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 
-import com.yndongyong.widget.multiitem.Items;
-import com.yndongyong.widget.multiitem.SimpleAdapter;
+import com.yndongyong.adapter.Items;
+import com.yndongyong.adapter.SimpleAdapter;
+import com.yndongyong.widget.demo.entities.Category3Entry;
+import com.yndongyong.widget.demo.entities.CategoryEntry;
+import com.yndongyong.widget.demo.viewproviders.Category1EntryItemViewProvider;
+import com.yndongyong.widget.demo.viewproviders.Category2EntryItemViewProvider;
+import com.yndongyong.widget.demo.viewproviders.Category3EntryItemViewProvider;
+import com.yndongyong.widget.demo.viewproviders.HeaderItemViewProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,13 +80,14 @@ public class MainActivity extends AppCompatActivity {
         /**
          * 方式一
          */
-        multiTypeAdapter = SimpleAdapter.create(this)
-                .addNewData(items)
-                .register(new HeaderItemViewProvider())
-                .register(new Category1EntryItemViewProvider())
-                .register(new Category2EntryItemViewProvider())
-                .register(new Category3EntryItemViewProvider())
-                .attachToRecyclerView(rv_list);
+        multiTypeAdapter = new SimpleAdapter(this);
+        multiTypeAdapter.addNewData(items);
+
+        multiTypeAdapter.register(new HeaderItemViewProvider());
+        multiTypeAdapter.register(new Category1EntryItemViewProvider());
+        multiTypeAdapter.register(new Category2EntryItemViewProvider());
+        multiTypeAdapter.register(new Category3EntryItemViewProvider());
+        rv_list.setAdapter(multiTypeAdapter);
 
         /**
          * 局部更新

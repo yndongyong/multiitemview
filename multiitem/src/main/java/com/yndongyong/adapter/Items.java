@@ -1,4 +1,4 @@
-package com.yndongyong.widget.multiitem;
+package com.yndongyong.adapter;
 
 import android.support.annotation.NonNull;
 
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Created by dongzhiyong on 2017/5/28.
+ * Created by yndongyong on 2017/5/28.
  */
 
 public class Items extends ArrayList<Object> {

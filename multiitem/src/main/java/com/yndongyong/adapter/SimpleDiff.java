@@ -1,4 +1,4 @@
-package com.yndongyong.widget.multiitem;
+package com.yndongyong.adapter;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,7 +7,7 @@ import android.support.v7.util.DiffUtil;
 import java.util.List;
 
 /**
- * Created by dongzhiyong on 2017/6/29.
+ * Created by yndongyong on 2017/6/29.
  */
 
 public class SimpleDiff extends DiffUtil.Callback {
