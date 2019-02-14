@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         items.add("头部2 -- type2");
         items.add(new CategoryEntry("", "风景图片4", 2));
         items.add(new CategoryEntry("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550054184708&di=16874780ddd31e1b429acbba458061cb&imgtype=0&src=http%3A%2F%2Fpic30.photophoto.cn%2F20140115%2F0040039504628208_b.jpg", "风景图片5", 2));
+        items.add(new CategoryEntry("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1550054184708&di=16874780ddd31e1b429acbba458061cb&imgtype=0&src=http%3A%2F%2Fpic30.photophoto.cn%2F20140115%2F0040039504628208_b.jpg", "风景图片5", 2));
 
 //        items.add(new CategoryEntry("http://scimg.jb51.net/allimg/150819/14-150QZ9194K27.jpg", "风景图片6", 2));
 

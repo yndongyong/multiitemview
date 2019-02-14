@@ -102,7 +102,12 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
     }
 
 
-    public void register(ItemViewProvider itemView) {
+    /**
+     *  注册 ItemViewProvider
+     * @param itemView ItemViewProvider
+     * @return 返回对应的 viewType
+     */
+    public int register(ItemViewProvider itemView) {
         Type genericSuperclass = itemView.getClass().getGenericSuperclass();
         if (genericSuperclass instanceof ParameterizedType) {
             Class<?> clazz = (Class<?>)((ParameterizedType) genericSuperclass).getActualTypeArguments()[0];
@@ -110,13 +115,13 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleViewHolder> {
             int viewType = mViewProviders.size();
             mViewProviders.put(viewType, itemView);
             mDataType.put(viewType,typeName);
+            return viewType;
 
         }else {
             throw new RuntimeException(String.format("generic parameters error on %s !!!", itemView.getClass().getCanonicalName().toString()));
         }
 
     }
-
 
     /**
      * 根据 类名名称 找到支持的多个ItemViewProvider的viewtype数组
