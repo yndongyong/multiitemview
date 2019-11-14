@@ -2,10 +2,10 @@
 RecylerView multi item view type
 
 
-##注意,存在问题
+##注意,使用中存在问题
 经过正式项目一些复杂场景（譬如首页使用rv实现）中的使用发现了两个比较严重的使用问题
-1. 一对多关系中，使用的是同一个ItemViewProvider对应多个同样的itemview，因为ItemViewProvider只new了一次 ，是同一个对象，通过其保存一些临时的状态变量(position、selectedId)等会有问题。
-2. 一对多关系中，不能很好的处理针对同一个对象的ItemViewProvider的accpet都返回true的情况。
+1. 不能在ItemViewProvider中保存临时变量结果。在一对多关系中，使用的是同一个ItemViewProvider对应多个同样的itemview，因为ItemViewProvider只new了一次 ，是同一个对象，通过其保存一些临时的状态变量(selectedData、selectedId)等造成数据错乱。所以不能用来保存临时变量，临时变量可以通过给entity，设置本地字段解决
+2. 一对多关系中，不能很好的处理针对同一个对象的ItemViewProvider的accpet都返回true的情况,使用时小心
 
 同时，对kotlin不友好
 
