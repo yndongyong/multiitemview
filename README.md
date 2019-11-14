@@ -1,6 +1,14 @@
 # SimpleAdapter
 RecylerView multi item view type
 
+
+##注意,存在问题
+经过正式项目一些复杂场景（譬如首页使用rv实现）中的使用发现了两个比较严重的使用问题
+1. 一对多关系中，使用的是同一个ItemViewProvider对应多个同样的itemview，因为ItemViewProvider只new了一次 ，是同一个对象，通过其保存一些临时的状态变量(position、selectedId)等会有问题。
+2. 一对多关系中，不能很好的处理针对同一个对象的ItemViewProvider的accpet都返回true的情况。
+
+同时，对kotlin不友好
+
 ### CHANGE LOG
 0.0.7:
 onBindViewHolder增加增量更新的默认空实现
